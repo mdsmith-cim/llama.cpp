@@ -75,7 +75,7 @@ if [ ! -z ${GG_BUILD_ROCM} ]; then
         exit 1
     fi
 
-    CMAKE_EXTRA="${CMAKE_EXTRA} -DAMDGPU_TARGETS=${GG_BUILD_AMDGPU_TARGETS}"
+    CMAKE_EXTRA="${CMAKE_EXTRA} -DGPU_TARGETS=${GG_BUILD_AMDGPU_TARGETS}"
 fi
 
 if [ ! -z ${GG_BUILD_SYCL} ]; then
@@ -121,7 +121,12 @@ fi
 if [ -n "${GG_BUILD_KLEIDIAI}" ]; then
     echo ">>===== Enabling KleidiAI support"
 
-    CANDIDATES=("armv9-a+dotprod+i8mm" "armv8.6-a+dotprod+i8mm" "armv8.2-a+dotprod")
+    CANDIDATES=(
+        "armv9-a+dotprod+i8mm+sve2"
+        "armv9-a+dotprod+i8mm"
+        "armv8.6-a+dotprod+i8mm"
+        "armv8.2-a+dotprod"
+    )
     CPU=""
 
     for cpu in "${CANDIDATES[@]}"; do
